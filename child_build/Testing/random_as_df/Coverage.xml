@@ -6,8 +6,8 @@
         <File Name="asdf1.cpp" FullPath="./src/asdf1.cpp" Covered="true">
             <LOCTested>20</LOCTested>
             <LOCUnTested>20</LOCUnTested>
-            <PercentCoverage>20</PercentCoverage>
-            <CoverageMetric>0.2</CoverageMetric>
+            <PercentCoverage>40</PercentCoverage>
+            <CoverageMetric>0.4</CoverageMetric>
         </File>
         <File Name="asdf2.cpp" FullPath="./src/asdf2.cpp" Covered="true">
             <LOCTested>20</LOCTested>
