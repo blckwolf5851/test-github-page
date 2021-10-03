@@ -1,0 +1,16 @@
+name: code coverage
+on: push
+jobs:
+  build:
+    name: coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: execute script
+        run: python tools/parse_coverage.py child_build parent_build
+      

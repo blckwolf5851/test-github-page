@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-g++">
+    <Coverage>
+        <StartDateTime>asdf</StartDateTime>
+        <StartTime>asdf</StartTime>
+        <File Name="asdf1.cpp" FullPath="./src/asdf1.cpp" Covered="true">
+            <LOCTested>20</LOCTested>
+            <LOCUnTested>20</LOCUnTested>
+            <PercentCoverage>20</PercentCoverage>
+            <CoverageMetric>0.2</CoverageMetric>
+        </File>
+        <File Name="asdf2.cpp" FullPath="./src/asdf2.cpp" Covered="true">
+            <LOCTested>20</LOCTested>
+            <LOCUnTested>20</LOCUnTested>
+            <PercentCoverage>30</PercentCoverage>
+            <CoverageMetric>0.3</CoverageMetric>
+        </File>
+        <File Name="asdf3.cpp" FullPath="./test/asdf3.cpp" Covered="true">
+            <LOCTested>20</LOCTested>
+            <LOCUnTested>20</LOCUnTested>
+            <PercentCoverage>85</PercentCoverage>
+            <CoverageMetric>0.87</CoverageMetric>
+        </File>
+        <LOCTested>20</LOCTested>
+        <LOCUnTested>20</LOCUnTested>
+        <LOC>20</LOC>
+        <PercentCoverage>85</PercentCoverage>
+    </Coverage>
+</Site>
