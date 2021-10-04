@@ -11,6 +11,14 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - name: make child build dir
+        run: mkdir ${{ runner.temp }}/child_build
+      - name: make child build dir
+        run: mkdir ${{ runner.temp }}/parent_build
+      - name: build child
+        run: cd ${{ runner.temp }}/child_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }}
+      - name: build master
+        run: git checkout master && cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }}
       - name: execute script
-        run: python tools/parse_coverage.py child_build parent_build
+        run: python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
       
