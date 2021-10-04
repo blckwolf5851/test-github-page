@@ -5,7 +5,7 @@ jobs:
     name: coverage
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: checkout child
         uses: actions/checkout@v2
       - name: setup build
         run: sudo apt update && sudo apt install ninja-build && sudo apt-get -y install cmake
@@ -19,8 +19,12 @@ jobs:
         run: mkdir ${{ runner.temp }}/parent_build
       - name: build child
         run: cd ${{ runner.temp }}/child_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }}
+      - name: checkout master
+        uses: actions/checkout@v2
+        with:
+          path: master
       - name: build master
-        run: git checkout master && cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }}
+        run: cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }}
       - name: execute script
         run: python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
       
