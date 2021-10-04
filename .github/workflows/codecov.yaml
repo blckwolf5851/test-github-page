@@ -20,7 +20,7 @@ jobs:
       - name: checkout master
         uses: actions/checkout@v2
         with:
-          path: master
+          ref: master
       - name: build master
         run: cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }} && ninja -v && ctest -T Test && ctest -T Coverage
       - name: execute script
