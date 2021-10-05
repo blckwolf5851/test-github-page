@@ -53,23 +53,29 @@ columns = ["File Name", "Coverage (%)", "Delta Coverage"]
 separator = ['-'*len(cn) for cn in columns]
 result = []
 fail = False
+coverage_decreased = False
+new_file_not_covered = False
 for fn in child_file_to_coverage:
     parent_cov = parent_file_to_coverage[fn] if fn in parent_file_to_coverage else 0
     child_cov = child_file_to_coverage[fn]
     delta_cov = child_cov - parent_cov
     result.append([fn, child_cov, delta_cov])
+    if fn not in parent_file_to_coverage and delta_cov == 0:
+        new_file_not_covered = True
     if delta_cov < 0:
-        fail = True
+        coverage_decreased = True
 
 result = [columns, separator] + result
 
-if fail:
-    print("neutral")
-    print("Coverage decreased.")
+if new_file_not_covered:
     pprint_table(result)
+    print("New files are not covered")
+    exit(1)
+elif coverage_decreased:
+    pprint_table(result)
+    print("Coverage decreased.")
+    exit(78)
+else:
+    pprint_table(result)
+    print("Coverage did not decrease.")
     exit(0)
-    # sys.exit("Coverage decreased.")
-
-print("succeed")
-print("Coverage did not decrease.")
-pprint_table(result)
