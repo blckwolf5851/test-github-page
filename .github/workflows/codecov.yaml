@@ -27,11 +27,8 @@ jobs:
       - name: execute script
         id: coverage_status
         run: |
-          OUTPUT=$(python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build)
-          STATUS=$(echo "$OUTPUT" | head -n 1)
-          echo "$OUTPUT"
+          python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
           echo "::set-output name=code::$?"
-          exit 1
         continue-on-error: true
         # continue-on-error: true
       - name: check status
