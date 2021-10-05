@@ -14,9 +14,6 @@ args = parser.parse_args()
 child_cov_file = glob.glob(args.child_coverage + "/Testing/**/Coverage.xml", recursive = True)[0]
 parent_cov_file = glob.glob(args.parent_coverage + "/Testing/**/Coverage.xml", recursive = True)[0]
 
-print(child_cov_file)
-print(parent_cov_file)
-
 def want_file(fn):
     return fn.startswith("./src")
 
