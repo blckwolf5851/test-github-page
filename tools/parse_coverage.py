@@ -65,9 +65,13 @@ for fn in child_file_to_coverage:
         fail = True
 
 result = [columns, separator] + result
-pprint_table(result)
 
 if fail:
-    sys.exit("Coverage decreased.")
+    print("Coverage decreased.")
+    pprint_table(result)
+    print("neutral")
+    # sys.exit("Coverage decreased.")
 
+print("succeed")
 print("Coverage did not decrease.")
+pprint_table(result)
