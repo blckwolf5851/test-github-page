@@ -31,6 +31,6 @@ jobs:
           echo "$OUTPUT"
           echo "::set-output name=status::$STATUS"
       - name: check status
-        if: ${{ steps.coverage_status.outputs.status }} == "neutral"
+        if: ${{ steps.coverage_status.outputs.status }} == 'neutral'
         run: exit 78
       
