@@ -12,8 +12,8 @@ int foo(int param)
 
 int main(int argc, char* argv[])
 {
-    foo(0);
-    foo(1);
+    // foo(0);
+    // foo(1);
 
     return 0;
 }
