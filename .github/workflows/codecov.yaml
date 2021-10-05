@@ -4,6 +4,7 @@ jobs:
   build:
     name: coverage
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: checkout child
         uses: actions/checkout@v2
@@ -31,7 +32,7 @@ jobs:
           echo "$OUTPUT"
           echo "::set-output name=status::$STATUS"
           exit 1
-        continue-on-error: true
+        # continue-on-error: true
       - name: check status
         if: ${{ steps.coverage_status.outputs.status }} == 'neutral'
         run: exit 78
