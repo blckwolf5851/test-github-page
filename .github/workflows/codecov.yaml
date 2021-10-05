@@ -24,8 +24,7 @@ jobs:
           ref: master
       - name: build master
         run: cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }} && ninja -v && ctest -T Test && ctest -T Coverage
-      - name: execute script
-        id: coverage_status
+      - id: coverage_status
         run: |
           python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
           echo "::set-output name=code::78"
