@@ -70,6 +70,7 @@ if fail:
     print("neutral")
     print("Coverage decreased.")
     pprint_table(result)
+    exit(0)
     # sys.exit("Coverage decreased.")
 
 print("succeed")
