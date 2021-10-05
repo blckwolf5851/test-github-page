@@ -28,6 +28,7 @@ jobs:
         run: |
           OUTPUT=$(python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build)
           STATUS=$(echo "$OUTPUT" | head -n 1)
+          echo "$OUTPUT"
           echo "::set-output name=status::$STATUS"
       - name: check status
         if: ${{ steps.coverage_status.outputs.status }} == "neutral"
