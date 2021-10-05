@@ -35,6 +35,6 @@ jobs:
         continue-on-error: true
         # continue-on-error: true
       - name: check status
-        if: ${{ steps.coverage_status.outputs.code == 1 }}
+        if: steps.coverage_status.outputs.code == '1'
         run: exit 1
       
