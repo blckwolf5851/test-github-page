@@ -14,9 +14,6 @@ args = parser.parse_args()
 child_cov_file = glob.glob(args.child_coverage + "/Testing/**/Coverage.xml", recursive = True)[0]
 parent_cov_file = glob.glob(args.parent_coverage + "/Testing/**/Coverage.xml", recursive = True)[0]
 
-print(child_cov_file)
-print(parent_cov_file)
-
 def want_file(fn):
     return fn.startswith("./src")
 
@@ -65,9 +62,14 @@ for fn in child_file_to_coverage:
         fail = True
 
 result = [columns, separator] + result
-pprint_table(result)
 
 if fail:
-    sys.exit("Coverage decreased.")
+    print("neutral")
+    print("Coverage decreased.")
+    pprint_table(result)
+    exit(0)
+    # sys.exit("Coverage decreased.")
 
+print("succeed")
 print("Coverage did not decrease.")
+pprint_table(result)
