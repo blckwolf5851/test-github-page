@@ -30,8 +30,13 @@ jobs:
           python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build || echo "cov_status=$?" >> $GITHUB_ENV
         continue-on-error: true
       - name: check new file covered
-        if: env.cov_status == '1'
-        run: exit 1
+        run: |
+          if [[ ${{env.cov_status}} == 1 ]]; then
+            echo "New file must be covered"
+            exit 1
+          else
+            echo "New file covered."
+          fi
       - name: coverage non-decreasing
         if: env.cov_status == ''
         run: echo "Coverage did not decrease"
