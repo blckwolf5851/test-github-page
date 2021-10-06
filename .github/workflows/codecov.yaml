@@ -32,7 +32,8 @@ jobs:
         continue-on-error: true
         # continue-on-error: true
       - name: check steps.coverage.outputs.code
-        run: echo status is: ${{ steps.coverage.outputs.code }}
+        run: |
+          echo status is: ${{ steps.coverage.outputs.code }}
       - name: check status
         # run: echo ${{steps.coverage.outputs.code}}
         if: steps.coverage.outputs.code == '78'
