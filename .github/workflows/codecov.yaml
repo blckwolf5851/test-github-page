@@ -24,14 +24,17 @@ jobs:
           ref: master
       - name: build master
         run: cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }} && ninja -v && ctest -T Test && ctest -T Coverage
-      - id: coverage_status
+      - name: coverage status
+        id: coverage
         run: |
           python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
           echo "::set-output name=code::78"
         continue-on-error: true
         # continue-on-error: true
+      - name: check steps.coverage.outputs.code
+        run: echo status is: ${{ steps.coverage.outputs.code }}
       - name: check status
-        # run: echo ${{steps.coverage_status.outputs.code}}
-        if: steps.coverage_status.outputs.code == '78'
+        # run: echo ${{steps.coverage.outputs.code}}
+        if: steps.coverage.outputs.code == '78'
         run: exit 1
       
