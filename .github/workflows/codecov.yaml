@@ -31,9 +31,9 @@ jobs:
           COV_STATUS=$?
         continue-on-error: true
         # continue-on-error: true
-      - name: check COV_STATUS
+      - name: check env.COV_STATUS
         run: |
-          echo status is: ${{ COV_STATUS }}
+          echo status is: ${{ env.COV_STATUS }}
       - name: check status
         # run: echo ${{steps.coverage.outputs.code}}
         if: env.COV_STATUS == '78'
