@@ -28,6 +28,7 @@ jobs:
         id: coverage
         run: |
           python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
+          echo "status is: $?"
           echo "cov_status=$?" >> $GITHUB_ENV
         continue-on-error: true
         # continue-on-error: true
