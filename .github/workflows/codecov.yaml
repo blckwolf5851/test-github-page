@@ -38,6 +38,6 @@ jobs:
             echo "New file covered."
           fi
       - name: coverage non-decreasing
-        if: env.cov_status == ''
+        if: env.cov_status == '0'
         run: echo "Coverage did not decrease"
       
