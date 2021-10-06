@@ -37,6 +37,14 @@ jobs:
           else
             echo "New file covered."
           fi
+      - name: no severe coverage decrease
+        run: |
+          if [[ ${{env.cov_status}} == 2 ]]; then
+            echo "At least 1 file's coverage decrease by more than 20%"
+            exit 1
+          else
+            echo "No severe coverage decrease detected."
+          fi
       - name: coverage non-decreasing
         if: env.cov_status == '0'
         run: echo "Coverage did not decrease"
