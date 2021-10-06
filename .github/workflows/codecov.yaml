@@ -28,14 +28,14 @@ jobs:
         id: coverage
         run: |
           python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
-          echo "::set-output name=code::78"
+          COV_STATUS=$?
         continue-on-error: true
         # continue-on-error: true
-      - name: check steps.coverage.outputs.code
+      - name: check COV_STATUS
         run: |
-          echo status is: ${{ steps.coverage.outputs.code }}
+          echo status is: ${{ COV_STATUS }}
       - name: check status
         # run: echo ${{steps.coverage.outputs.code}}
-        if: steps.coverage.outputs.code == '78'
+        if: env.COV_STATUS == '78'
         run: exit 1
       
