@@ -28,14 +28,14 @@ jobs:
         id: coverage
         run: |
           python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build
-          echo "COV_STATUS=$?" >> $GITHUB_ENV
+          echo "cov_status=$?" >> $GITHUB_ENV
         continue-on-error: true
         # continue-on-error: true
-      - name: check env.COV_STATUS
+      - name: check env.cov_status
         run: |
-          echo "status is: ${{ env.COV_STATUS }}"
+          echo "status is: ${{ env.cov_status }}"
       - name: check status
         # run: echo ${{steps.coverage.outputs.code}}
-        if: env.COV_STATUS == '78'
+        if: env.cov_status == '78'
         run: exit 1
       
