@@ -17,7 +17,9 @@ def keep_issue(issue):
 
 def compress_issue(issue):
     field_to_keep = ["number", "url", "title", "assignee", "assignees", "milestone", "state", "labels"]
-    return {field:issue[field] for field in field_to_keep}
+    issue = {field:issue[field] for field in field_to_keep}
+    issue["labels"] = [label["name"] for label in issue["labels"]]
+    return issue
 
 issues = [compress_issue(issue) for issue in issues if keep_issue(issue)]
 print(json.dumps(issues, indent=4))
