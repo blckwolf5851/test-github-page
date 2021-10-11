@@ -4,13 +4,48 @@ jobs:
   build:
     name: coverage
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
-      - name: checkout
+      - name: checkout child
         uses: actions/checkout@v2
+      - name: setup build
+        run: sudo apt update && sudo apt install ninja-build && sudo apt-get -y install cmake
       - name: setup python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: execute script
-        run: python tools/parse_coverage.py child_build parent_build
+      - name: make build dir
+        run: mkdir ${{ runner.temp }}/child_build && mkdir ${{ runner.temp }}/parent_build
+      - name: build child
+        run: cd ${{ runner.temp }}/child_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }} && ninja -v && ctest -T Test && ctest -T Coverage
+      - name: checkout master
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: build master
+        run: cd ${{ runner.temp }}/parent_build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ${{ github.workspace }} && ninja -v && ctest -T Test && ctest -T Coverage
+      - name: coverage status
+        id: coverage
+        run: |
+          python tools/parse_coverage.py ${{ runner.temp }}/child_build ${{ runner.temp }}/parent_build; echo "cov_status=$?" >> $GITHUB_ENV
+        continue-on-error: true
+      - name: check new file covered
+        run: |
+          if [[ ${{env.cov_status}} == 1 ]]; then
+            echo "New file must be covered"
+            exit 1
+          else
+            echo "New file covered."
+          fi
+      - name: no severe coverage decrease
+        run: |
+          if [[ ${{env.cov_status}} == 2 ]]; then
+            echo "At least 1 file's coverage decrease by more than 20%"
+            exit 1
+          else
+            echo "No severe coverage decrease detected."
+          fi
+      - name: coverage non-decreasing
+        if: env.cov_status == '0'
+        run: echo "Coverage did not decrease"
       
