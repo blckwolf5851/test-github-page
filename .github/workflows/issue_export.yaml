@@ -1,0 +1,21 @@
+name: issue export
+on: push
+jobs:
+  build:
+    name: issue export
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup build
+        run: sudo apt update && sudo apt install ninja-build && sudo apt-get -y install cmake
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: curl
+        run: |
+          curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/blckwolf5851/test-github-page/issues > ${{ runner.temp }}/issues.json
+      - name: filter issues
+        run: python tools/filter_issue.py ${{ runner.temp }}/issues.json
