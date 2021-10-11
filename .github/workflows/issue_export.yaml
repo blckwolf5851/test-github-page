@@ -1,7 +1,8 @@
 name: issue export
 on:
   schedule:
-    - cron: "* * * * */1"
+    # runs on Monday at 11:59 pm
+    - cron: "59 23 * * 0"
 jobs:
   build:
     name: issue export
