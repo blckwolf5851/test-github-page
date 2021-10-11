@@ -25,5 +25,7 @@ jobs:
         run: python tools/filter_issue.py ${{ runner.temp }}/issues.json
       - name: push html
         run: |
+          git config --global user.name 'issue_exporter'
+          git config --global user.email 'issue_exporter@users.noreply.github.com'
           git commit -am "html pages"
           git push
