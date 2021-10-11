@@ -16,9 +16,10 @@ def keep_issue(issue):
     return "pull_request" not in issue
 
 def compress_issue(issue):
-    field_to_keep = ["number", "url", "title", "assignee", "assignees", "milestone", "state", "labels"]
+    field_to_keep = ["number", "url", "title", "assignees", "milestone", "state", "labels"]
     issue = {field:issue[field] for field in field_to_keep}
     issue["labels"] = [label["name"] for label in issue["labels"]]
+    issue["assignees"] = ','.join([user["login"] for user in issue["assignees"]])
     return issue
 
 issues = [compress_issue(issue) for issue in issues if keep_issue(issue)]
