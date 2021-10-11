@@ -8,12 +8,16 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          ref: master
       - name: setup build
         run: sudo apt update && sudo apt install ninja-build && sudo apt-get -y install cmake
       - name: setup python
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - name: pandas
+        run: pip install pandas
       - name: curl
         run: |
           curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/blckwolf5851/test-github-page/issues > ${{ runner.temp }}/issues.json
