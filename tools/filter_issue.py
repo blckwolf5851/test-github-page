@@ -20,4 +20,4 @@ def compress_issue(issue):
     return {field:issue[field] for field in field_to_keep}
 
 issues = [compress_issue(issue) for issue in issues if keep_issue(issue)]
-print(issues)
+print(json.dumps(issues))
