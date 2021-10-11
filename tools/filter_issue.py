@@ -29,8 +29,9 @@ def compress_issue(issue):
 
 
 def array2htmltable(columns, issues):
-    table = "<table>\n"
+    table = "<table id=\"table\">\n"
     table += "    <tr>\n        %s\n    </tr>\n" % str("\n        ".join([f"<th>{col}</th>" for col in columns]))
+    row_attributes = ["state", "priority", "milestone"]
     for issue in issues:
         issue_id = f"""<td><a href=\"{issue["html_url"]}\">{issue["number"]}</a></td>"""
         title = f"""<td>{issue["title"]}</td>"""
@@ -39,7 +40,9 @@ def array2htmltable(columns, issues):
         owner = f"""<td>{issue["assignees"]}</td>"""
         blank_status = f"""<td></td>"""
         row = [issue_id, title, status, priority, owner, blank_status]
-        table += "    <tr>\n        %s\n    </tr>\n" % str("\n        ".join(row))
+        attributes = ' '.join([f'{attr}="{issue[attr]}"' for attr in row_attributes])
+        table += "    <tr %s>\n        %s\n    </tr>\n" % (attributes, str("\n        ".join(row)))
+        # table += f'    <tr {attributes}>\n        {"\n        ".join(row)}\n    </tr>\n'
     table += "</table>"
     result = """<!DOCTYPE html>
 <html>
@@ -68,10 +71,69 @@ tr:nth-child(even) {
 </style>
 </head>
 <body>
+<table id="filter">
+  <tr>
+      <td>Priority</td>
+      <td><input type="text" id="priority" onkeyup="filter()" placeholder="high" title="Priority Filter"></td>
+  </tr>
+  <tr>
+      <td>Milestone</td>
+      <td><input type="text" id="milestone" onkeyup="filter()" placeholder="2022.1" title="Milestone Filter"></td>
+  </tr>
+  <tr>
+      <td>Status</td>
+      <td><input type="text" id="status" onkeyup="filter()" placeholder="open" title="Status Filter"></td>
+  </tr>
+</table>
+
+<p></p>
 """
     result += table
     result += """
 </body>
+
+<script>
+const filter = () => {
+  var input, filter, table, tr, td, i;
+  priority = document.getElementById("priority").value;
+  milestone = document.getElementById("milestone").value;
+  state = document.getElementById("status").value;
+
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+
+  // Replace space with | to have or condition in regex
+  priority = priority.replace(/\s+/g, '|')
+  milestone = milestone.replace(/\s+/g, '|')
+  state = state.replace(/\s+/g, '|')
+
+  const priority_regex = new RegExp(priority, 'i');
+  const milestone_regex = new RegExp(milestone, 'i');
+  const state_regex = new RegExp(state, 'i');
+
+  for (i = 0; i < tr.length; i++) {
+    // Do not display a row if:
+    // 1. it does not contain keywords
+    // 2. the filter condition is not empty
+    // 3. the original field is not empty
+    if (!priority_regex.test(tr[i].getAttribute("priority")) && priority !== "" && tr[i].getAttribute("priority")) {
+      tr[i].style.display = "none";
+      continue;
+    }
+    if (!milestone_regex.test(tr[i].getAttribute("milestone")) && milestone !== "" && tr[i].getAttribute("milestone")) {
+      tr[i].style.display = "none";
+      continue;
+    }
+    if (!state_regex.test(tr[i].getAttribute("state")) && state !== "" && tr[i].getAttribute("state")) {
+      tr[i].style.display = "none";
+      continue;
+    }
+    tr[i].style.display = ""; 
+  }
+  // Do not hide the headers
+  tr[0].style.display = ""; 
+};
+</script>
 </html>
 """
     return result
