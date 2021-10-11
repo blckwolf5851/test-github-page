@@ -23,7 +23,7 @@ def compress_issue(issue):
     issue["priority"] = ""
     for label in issue["labels"]:
         if label.startswith('priority'):
-            issue["priority"] = label
+            issue["priority"] = label.split(":")[1]
             break
     return issue
 
